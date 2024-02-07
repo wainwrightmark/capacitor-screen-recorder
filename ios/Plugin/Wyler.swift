@@ -48,6 +48,16 @@ public final class ScreenRecorder {
         }
     }
 
+    public func recording_state() -> String{
+        if recorder.isRecording(){
+            return "recording"
+        }else if recorder.isAvailable(){
+            return "idle"
+        }else{
+            return "unknown"
+        }
+    }
+
     private func checkPhotoLibraryAuthorizationStatus() {
         let status = PHPhotoLibrary.authorizationStatus()
         if status == .notDetermined {

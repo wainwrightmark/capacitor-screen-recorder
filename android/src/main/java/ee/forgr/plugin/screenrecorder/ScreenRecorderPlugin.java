@@ -2,17 +2,17 @@ package ee.forgr.plugin.screenrecorder;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Canvas;
 
 
 import android.media.MediaRecorder;
-import androidx.core.content.ContextCompat;
+
+import androidx.annotation.NonNull;
+
 import android.content.Context;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -21,13 +21,58 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 import dev.bmcreations.scrcast.ScrCast;
 import dev.bmcreations.scrcast.config.ChannelConfig;
 import dev.bmcreations.scrcast.config.Options;
-import dev.bmcreations.scrcast.config.Options;
-import dev.bmcreations.scrcast.config.StorageConfig;
-import dev.bmcreations.scrcast.config.VideoConfig;
 import dev.bmcreations.scrcast.internal.config.dsl.NotificationConfigBuilder;
 import dev.bmcreations.scrcast.internal.config.dsl.VideoConfigBuilder;
 import dev.bmcreations.scrcast.internal.config.dsl.StorageConfigBuilder;
+import dev.bmcreations.scrcast.recorder.RecordingCallbacks;
+import dev.bmcreations.scrcast.recorder.RecordingState;
+
 import com.getcapacitor.plugin.util.AssetUtil;
+import com.getcapacitor.JSObject;
+
+import java.io.File;
+
+
+class MyRecordingCallback implements RecordingCallbacks {
+    PluginCall call;
+
+    public MyRecordingCallback(PluginCall call1){
+        call = call1;
+
+    }
+
+    @Override
+    public void onRecordingFinished(@NonNull File file) {
+        //do nothing (yet)
+    }
+
+    @Override
+    public void onStateChange(@NonNull RecordingState state) {
+
+        if (call != null){
+            String value;
+            if (state.isRecording()){
+                value = "recording";
+            } else if (state.isInStartDelay()){
+                value = "startDelay";
+            } else if (state.isPaused()) {
+                value = "paused";
+            }else if (state.isIdle()){
+                value = "idle";
+            }else if (state.isError()){
+                value = "error";
+            } else{
+                value = "unknown";
+            }
+
+            JSObject ret = new JSObject();
+            ret.put("value", value);
+            call.resolve(ret);
+            call = null;
+        }
+
+    }
+}
 
 @CapacitorPlugin(name = "ScreenRecorder")
 public class ScreenRecorderPlugin extends Plugin {
@@ -46,24 +91,22 @@ public class ScreenRecorderPlugin extends Plugin {
 
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
-        //Log.i("MARK IS COOL", dm.toString());
-
         // create configuration for video
         VideoConfigBuilder videoConfig = new VideoConfigBuilder();
 
         videoConfig.setWidth((dm.widthPixels / 2) * 2);
         videoConfig.setHeight((dm.heightPixels / 2) * 2);
 
-        // // create configuration for storage
+        // create configuration for storage
         StorageConfigBuilder storageConfig = new StorageConfigBuilder();
         storageConfig.setDirectoryName("WordSalad");
         storageConfig.setDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES));
         storageConfig.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
-                // // create configuration for notification channel for recording
+        // create configuration for notification channel for recording
         ChannelConfig channelConfig = new ChannelConfig("1990", "Word Salad Recording");
 
-        // // create configuration for our notification
+        // create configuration for our notification
 
         NotificationConfigBuilder notificationConfig = new NotificationConfigBuilder();
         notificationConfig.setShowPause(false); //doesn't seem to be helpful
@@ -90,8 +133,36 @@ public class ScreenRecorderPlugin extends Plugin {
 
     @PluginMethod
     public void start(PluginCall call) {
+
+        recorder.setRecordingCallback(new MyRecordingCallback(call));
         recorder.record();
-        call.resolve();
+    }
+
+    @PluginMethod
+    public void recording_state(PluginCall call){
+        RecordingState state = recorder.getState();
+        String value;
+        if (state.isRecording()){
+            value = "recording";
+        } else if (state.isInStartDelay()){
+            value = "startDelay";
+        } else if (state.isPaused()) {
+            value = "paused";
+        }else if (state.isIdle()){
+            value = "idle";
+        }else if (state.isError()){
+            value = "error";
+        } else{
+            value = "unknown";
+        }
+
+        //System.out.println("Checking is recording: " + value);
+
+        JSObject ret = new JSObject();
+        ret.put("value", value);
+        call.resolve(ret);
+
+        //return .isRecording();
     }
 
     @PluginMethod

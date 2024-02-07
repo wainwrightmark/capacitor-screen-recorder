@@ -15,7 +15,10 @@ public class ScreenRecorderPlugin: CAPPlugin {
                 debugPrint("Error when start recording \(error)")
                 call.reject("Cannot start recording")
             } else {
-                call.resolve()
+                let result = implementation.recording_state();
+                call.resolve([
+        "value": result
+    ])
             }
         })
     }
@@ -28,5 +31,13 @@ public class ScreenRecorderPlugin: CAPPlugin {
                 call.resolve()
             }
         })
+    }
+
+
+    @obj func recording_state(_ call: CAPPluginCall){
+        let result = implementation.recording_state();
+        call.resolve([
+        "value": result
+    ])
     }
 }

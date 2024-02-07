@@ -6,4 +6,6 @@
 CAP_PLUGIN(ScreenRecorderPlugin, "ScreenRecorder",
            CAP_PLUGIN_METHOD(start, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(stop, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(recording_state, CAPPluginReturnPromise);
+
 )
