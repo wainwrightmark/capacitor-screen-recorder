@@ -96,6 +96,8 @@ public class ScreenRecorderPlugin extends Plugin {
 
         videoConfig.setWidth((dm.widthPixels / 2) * 2);
         videoConfig.setHeight((dm.heightPixels / 2) * 2);
+        videoConfig.setFrameRate(60);
+        videoConfig.setBitrate(30_000_000);
 
         // create configuration for storage
         StorageConfigBuilder storageConfig = new StorageConfigBuilder();
