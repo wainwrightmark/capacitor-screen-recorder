@@ -49,9 +49,9 @@ public final class ScreenRecorder {
     }
 
     public func recording_state() -> String{
-        if recorder.isRecording(){
+        if recorder.isRecording{
             return "recording"
-        }else if recorder.isAvailable(){
+        }else if recorder.isAvailable{
             return "idle"
         }else{
             return "unknown"
