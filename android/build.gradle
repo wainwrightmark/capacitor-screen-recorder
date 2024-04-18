@@ -63,5 +63,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.github.wainwrightmark:scrcast:trunk-SNAPSHOT'
+    implementation 'com.github.wainwrightmark:scrcast:Tag'
+
 }
