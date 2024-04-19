@@ -1,11 +1,11 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package dev.bmcreations.scrcast.internal.config.dsl
+package scrcast.internal.config.dsl
 
 import android.graphics.Bitmap
 import androidx.annotation.ColorRes
 import androidx.annotation.RestrictTo
-import dev.bmcreations.scrcast.config.*
+import scrcast.config.*
 import java.io.File
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)

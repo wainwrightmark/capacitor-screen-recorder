@@ -1,4 +1,4 @@
-package dev.bmcreations.scrcast.extensions
+package scrcast.extensions
 
 import android.media.MediaRecorder
 import android.os.Build

@@ -1,4 +1,4 @@
-package dev.bmcreations.scrcast.config
+package scrcast.config
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,19 +13,19 @@ import android.util.DisplayMetrics
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import dev.bmcreations.scrcast.R
+import ee.forgr.plugin.screenrecorder.R
 import kotlinx.parcelize.Parcelize
 
-import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.RawValue
 import kotlin.jvm.functions.FunctionN
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-import dev.bmcreations.scrcast.ScrCast
-import dev.bmcreations.scrcast.recorder.RecordingState
-import dev.bmcreations.scrcast.recorder.RecordingCallbacks
-import kotlinx.android.parcel.IgnoredOnParcel
+import scrcast.ScrCast
+import scrcast.recorder.RecordingState
+import scrcast.recorder.RecordingCallbacks
+import kotlinx.parcelize.IgnoredOnParcel
 
 /**
  * Type alias foe the [StorageConfig.fileNameFormatter] lambda.

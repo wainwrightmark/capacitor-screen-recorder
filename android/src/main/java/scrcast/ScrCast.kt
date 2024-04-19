@@ -1,4 +1,4 @@
-package dev.bmcreations.scrcast
+package scrcast
 
 import android.Manifest
 import android.app.Activity
@@ -23,17 +23,18 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import dev.bmcreations.scrcast.config.Options
-import dev.bmcreations.scrcast.internal.config.dsl.OptionsBuilder
-import dev.bmcreations.scrcast.extensions.supportsPauseResume
-import dev.bmcreations.scrcast.internal.recorder.*
-import dev.bmcreations.scrcast.recorder.*
-import dev.bmcreations.scrcast.recorder.RecordingState.*
-import dev.bmcreations.scrcast.recorder.RecordingStateChangeCallback
-import dev.bmcreations.scrcast.recorder.notification.NotificationProvider
-import dev.bmcreations.scrcast.internal.recorder.notification.RecorderNotificationProvider
-import dev.bmcreations.scrcast.internal.recorder.service.RecorderService
-import dev.bmcreations.scrcast.internal.request.RecordScreen
+import ee.forgr.plugin.screenrecorder.R
+import scrcast.config.Options
+import scrcast.internal.config.dsl.OptionsBuilder
+import scrcast.extensions.supportsPauseResume
+import scrcast.internal.recorder.*
+import scrcast.recorder.*
+import scrcast.recorder.RecordingState.*
+import scrcast.recorder.RecordingStateChangeCallback
+import scrcast.recorder.notification.NotificationProvider
+import scrcast.internal.recorder.notification.RecorderNotificationProvider
+import scrcast.internal.recorder.service.RecorderService
+import scrcast.internal.request.RecordScreen
 import java.io.File
 
 /**
@@ -336,11 +337,11 @@ class ScrCast private constructor(private val activity: ComponentActivity) {
     }
 
     private fun startRecording() {
-        startRecording.launch()
+        startRecording.launch(null);
     }
 
     private fun startService(result: ActivityResult, file : File) {
-        recordingSession = Intent(activity, RecorderService::class.java).apply {
+        val session = Intent(activity, RecorderService::class.java).apply {
             putExtra("code", result.resultCode)
             putExtra("data", result.data)
             putExtra("options", options)
@@ -348,6 +349,7 @@ class ScrCast private constructor(private val activity: ComponentActivity) {
             putExtra("dpi", dpi)
             putExtra("rotation", activity.windowManager.defaultDisplay.rotation)
         }
+        recordingSession = session;
 
         broadcaster.registerReceiver(
             recordingStateHandler,
@@ -359,8 +361,8 @@ class ScrCast private constructor(private val activity: ComponentActivity) {
             }
         )
 
-        activity.bindService(recordingSession, connection, Context.BIND_AUTO_CREATE)
-        activity.startService(recordingSession)
+        activity.bindService(session, connection, Context.BIND_AUTO_CREATE)
+        activity.startService(session)
     }
 
     companion object {

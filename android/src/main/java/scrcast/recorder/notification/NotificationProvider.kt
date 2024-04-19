@@ -1,4 +1,4 @@
-package dev.bmcreations.scrcast.recorder.notification
+package scrcast.recorder.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -6,8 +6,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import dev.bmcreations.scrcast.ScrCast
-import dev.bmcreations.scrcast.recorder.RecordingState
+import scrcast.ScrCast
+import scrcast.recorder.RecordingState
 
 /**
  * Provider contract for managing the recording notification used by [ScrCast]

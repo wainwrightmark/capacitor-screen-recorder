@@ -1,4 +1,4 @@
-package dev.bmcreations.scrcast.internal.request
+package scrcast.internal.request
 
 import android.app.Activity
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.RestrictTo
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 
-class RecordScreen : ActivityResultContract<Void, ActivityResult>() {
+class RecordScreen : ActivityResultContract<Void?, ActivityResult>() {
     override fun createIntent(context: Context, input: Void?): Intent {
         val pm = context.getSystemService(MediaProjectionManager::class.java)
         return pm.createScreenCaptureIntent()

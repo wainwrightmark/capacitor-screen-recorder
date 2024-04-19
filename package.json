@@ -9,6 +9,8 @@
   "files": [
     "android/src/main/",
     "android/build.gradle",
+    "android/settings.gradle",
+    "android/scrcast/",
     "dist/",
     "ios/Plugin/",
     "CapgoCapacitorScreenRecorder.podspec"

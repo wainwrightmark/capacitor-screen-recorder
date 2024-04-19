@@ -1,6 +1,6 @@
-package dev.bmcreations.scrcast.recorder
+package scrcast.recorder
 
-import dev.bmcreations.scrcast.ScrCast
+import scrcast.ScrCast
 /**
  * Explicit defined state's during a recording session via [ScrCast]
  */

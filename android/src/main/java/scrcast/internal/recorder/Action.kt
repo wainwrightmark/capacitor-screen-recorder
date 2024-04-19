@@ -1,9 +1,9 @@
-package dev.bmcreations.scrcast.internal.recorder
+package scrcast.internal.recorder
 
+import ee.forgr.plugin.screenrecorder.R
 import androidx.annotation.DrawableRes
 import androidx.annotation.RestrictTo
 import androidx.annotation.StringRes
-import dev.bmcreations.scrcast.R
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 sealed class Action(
