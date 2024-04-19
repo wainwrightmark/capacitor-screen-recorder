@@ -114,9 +114,21 @@ class RecorderService : Service() {
     private fun createRecorder() {
         Log.d("scrcast", "createRecorder()")
         mediaRecorder = MediaRecorder().apply {
-            setAudioSource(AudioSource.MIC)
+            try{
+                setAudioSource(AudioSource.MIC)
+            }
+            catch ( e: IllegalStateException){
+                Log.w("scrcast", e);
+            }
 
-            setVideoSource(VideoSource.SURFACE)
+            try{
+                setVideoSource(VideoSource.SURFACE);
+            }
+            catch (e: IllegalStateException){
+                Log.w("scrcast", e);
+                return;
+            }
+
             setOutputFormat(options.storage.outputFormat)
             setAudioEncoder(AudioEncoder.HE_AAC)
             setOutputFile(outputFile)
